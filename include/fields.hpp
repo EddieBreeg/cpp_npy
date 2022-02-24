@@ -1,7 +1,8 @@
 #pragma once
 
 #include <stddef.h>
-#include <concepts>
+#include <string>
+#include <sstream>
 
 enum PrimitiveType
 {
@@ -48,7 +49,7 @@ public:
     Shape(Shape&&);
     Shape& operator=(const Shape&);
     Shape& operator=(Shape&&);
-    
+
     ~Shape();
     const unsigned& operator[](size_t index) const;
     const unsigned* begin() const;
@@ -56,15 +57,18 @@ public:
     size_t dimensions() const;
     size_t nElements() const;
 
+    friend std::ostream& operator<<(std::ostream& s, const Shape& shape);
     static Shape noShape();
 };
 struct FieldDescriptor
 {
     FieldType type;
+    size_t align;
     Shape shape = Shape();
 };
+
 struct Field
 {
     FieldDescriptor _descr;
-    size_t _offset, _padding, _size;
+    size_t _padding=0, _offset=0;
 };

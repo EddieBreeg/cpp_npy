@@ -17,6 +17,7 @@ public:
     }
     const Field* begin() const;
     const Field* end() const;
+    const Field& operator[](size_t index) const;
     ~StructDescriptor();
 };
 

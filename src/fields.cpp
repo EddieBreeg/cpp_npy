@@ -36,6 +36,12 @@ Shape& Shape::operator=(Shape&& other){
     std::swap(this->_dims, other._dims);
     return *this;
 }
-
-
 Shape Shape::noShape() { return Shape(); }
+
+std::ostream& operator<<(std::ostream& s, const Shape& shape){
+    s << '(';
+    for(unsigned d: shape)
+        s << d << ',';
+    s << ')';
+    return s;
+}
