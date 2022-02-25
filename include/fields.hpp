@@ -1,37 +1,9 @@
 #pragma once
 
-#include <stddef.h>
 #include <string>
 #include <sstream>
-
-enum PrimitiveType
-{
-    BOOL,
-    INT,
-    UINT,
-    BYTE,
-    UBYTE,
-    STRING,
-    FLOAT,
-    VOID
-};
-struct FieldType
-{
-    PrimitiveType type;
-    size_t size;
-};
-// basic types
-struct BaseFieldType{
-    constexpr static FieldType boolean = {PrimitiveType::BOOL, sizeof(bool)};
-    constexpr static FieldType int8 = {PrimitiveType::BYTE, 1};
-    constexpr static FieldType uint8 = {PrimitiveType::UBYTE, 1};
-    constexpr static FieldType int16 = {PrimitiveType::INT, 2};
-    constexpr static FieldType uint16 = {PrimitiveType::UINT, 2};
-    constexpr static FieldType int32 = {PrimitiveType::INT, 4};
-    constexpr static FieldType uint32 = {PrimitiveType::UINT, 4};
-    constexpr static FieldType int64 =  {PrimitiveType::INT,  8};
-    constexpr static FieldType uint64 = {PrimitiveType::UINT, 8};
-};
+#include "npy_types.hpp"
+#include "Descriptor.hpp"
 
 class Shape
 {
@@ -60,15 +32,21 @@ public:
     friend std::ostream& operator<<(std::ostream& s, const Shape& shape);
     static Shape noShape();
 };
-struct FieldDescriptor
+struct FieldDescriptor: public Descriptor
 {
     FieldType type;
     size_t align;
-    Shape shape = Shape();
+    Shape shape=Shape();
+    FieldDescriptor(){};
+    FieldDescriptor(FieldType t, size_t a, Shape&& s=Shape::noShape());
+    std::string toString() const;
+    size_t size() const { return shape.nElements()*type.size; };
 };
 
 struct Field
 {
     FieldDescriptor _descr;
-    size_t _padding=0, _offset=0;
+    size_t _size, _padding=0, _offset=0;
+    Field(){}
+    Field(const FieldDescriptor& d): _descr(d){}
 };

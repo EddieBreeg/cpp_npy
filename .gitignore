@@ -40,8 +40,8 @@
 # misc
 .vscode/
 build/
-tests/
 *.png
+**.npy
 *.svg
 *.puml
 

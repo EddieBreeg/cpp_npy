@@ -1,5 +1,9 @@
 #include "fields.hpp"
 #include <algorithm>
+#include <bit>
+
+constexpr static char endianPrefix = std::endian::native==std::endian::little? '<':'>';
+const static char* typeSymbols = "?iubBSfV";
 
 Shape::Shape(): _size(0){}
 Shape::~Shape(){ delete[] _dims; }
@@ -44,4 +48,16 @@ std::ostream& operator<<(std::ostream& s, const Shape& shape){
         s << d << ',';
     s << ')';
     return s;
+}
+FieldDescriptor::FieldDescriptor(FieldType t, size_t a, Shape&& s):
+    type(t), align(a), shape(s) {}
+std::string FieldDescriptor::toString() const{
+    std::stringstream s;
+    s << '\'';
+    if(shape.dimensions()) s << shape;
+    if(type.type==PrimitiveType::INT) s << endianPrefix;
+    s << typeSymbols[type.type];
+    if(type.size > 1) s << type.size;
+    s << '\'';
+    return s.str();
 }

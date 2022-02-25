@@ -1,14 +1,13 @@
 #pragma once
-#include <stdio.h>
 #include <string>
 #include "fields.hpp"
 #include "StructDescriptor.hpp"
+#include <fstream>
 
-class NPYFileWriter
+struct Version
 {
-private:
-    /* data */
-public:
-    NPYFileWriter(std::string fileName);
-    ~NPYFileWriter();
+    char major, minor;
 };
+
+
+void NPYWrite(std::string filename, Version v,const Descriptor& descr, const Shape& shape, const void* data);
