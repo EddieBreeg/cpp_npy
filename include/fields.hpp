@@ -38,9 +38,15 @@ struct FieldDescriptor: public Descriptor
     size_t align;
     Shape shape=Shape();
     FieldDescriptor(){};
-    FieldDescriptor(FieldType t, size_t a, Shape&& s=Shape::noShape());
-    std::string toString() const;
-    size_t size() const { return shape.nElements()*type.size; };
+    /**
+     * Constructs a field descriptor from the type, the alignment and an optional shape
+    */
+    FieldDescriptor(FieldType t, size_t align, Shape&& s=Shape::noShape());
+    std::string toString() const override;
+    /**
+     * Returns the total size of the field in bytes
+    */
+    size_t size() const override { return shape.nElements()*type.size; };
 };
 
 struct Field

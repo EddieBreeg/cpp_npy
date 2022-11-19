@@ -17,7 +17,7 @@ struct FieldType
     PrimitiveType type;
     size_t size;
 };
-// basic types
+// Native numpy field types
 struct BaseFieldType{
     constexpr static FieldType boolean = {PrimitiveType::BOOL, sizeof(bool)};
     constexpr static FieldType int8 = {PrimitiveType::BYTE, 1};

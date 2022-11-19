@@ -5,7 +5,7 @@
 void f0(){
     FieldDescriptor desc{BaseFieldType::int32, 4};
     int32_t X[] = {1,2,3,4};
-    NPYWrite("A.npy", {1,0}, desc, Shape(2,2,2), X);
+    NPYWrite("A.npy", {1,0}, desc, Shape(1,4), X);
 }
 // test on a simple 2-field structure
 void f1(){
